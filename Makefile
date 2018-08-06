@@ -22,7 +22,7 @@ TARGET = stm_makefile
 # debug build?
 DEBUG = 1
 # optimization
-OPT = -Og
+OPT = -Og -Wall
 
 
 #######################################
@@ -61,7 +61,6 @@ Src/stm32f4xx_hal_msp.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c \
-Src/stm32f4xx_hal_msp.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
@@ -69,8 +68,6 @@ Src/stm32f4xx_hal_msp.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
-Src/main.c \
-Src/stm32f4xx_it.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c \
 /home/vasilek/STM32Cube/Repository/STM32Cube_FW_F4_V1.19.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c \
@@ -90,7 +87,7 @@ PERIFLIB_SOURCES =
 #######################################
 # binaries
 #######################################
-BINPATH = 
+BINPATH = /usr/bin
 PREFIX = arm-none-eabi-
 CC = $(BINPATH)/$(PREFIX)gcc
 AS = $(BINPATH)/$(PREFIX)gcc -x assembler-with-cpp
@@ -200,7 +197,15 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR .dep $(BUILD_DIR)
-  
+
+
+flash: all
+	st-flash --reset write build/$(TARGET).bin 0x8000000
+erase:
+	st-flash --reset erase
+uart:
+	screen /dev/ttyACM0 
+
 #######################################
 # dependencies
 #######################################

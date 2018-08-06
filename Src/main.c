@@ -118,7 +118,22 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-
+    {
+      static int i=0;
+      if(i<100000)
+      {
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_SET);
+      } 
+      else if(i>=100000 && i<200000)
+      {
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_5,GPIO_PIN_RESET);
+      }
+      else if(i>200000)
+      {
+        i=0;
+      }
+      i++;
+    }
   }
   /* USER CODE END 3 */
 
